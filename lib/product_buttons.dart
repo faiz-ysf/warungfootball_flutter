@@ -34,6 +34,16 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
     super.dispose();
   }
 
+  ButtonStyle _buildButtonStyle(Color backgroundColor) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,57 +59,16 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Kamu telah menekan tombol All Products'),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.shop, size: 24),
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Text(
-                    'All Products',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 15), // Increased spacing
-        FadeTransition(
-          opacity: _fadeAnimation,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: SizedBox(
-              width: double.infinity, // Make button full width
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
                       content: Text('Kamu telah menekan tombol My Products'),
                     ),
                   );
                 },
                 icon: const Icon(Icons.person, size: 24),
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Text(
-                    'My Products',
-                    style: TextStyle(fontSize: 18),
-                  ),
+                label: const Text(
+                  'My Products',
+                  style: TextStyle(fontSize: 18),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+                style: _buildButtonStyle(Colors.green),
               ),
             ),
           ),
@@ -115,24 +84,16 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Kamu telah menekan tombol Create Product'),
+                      content: Text('Kamu telah menekan tombol View All Products'),
                     ),
                   );
                 },
-                icon: const Icon(Icons.add, size: 24),
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Text(
-                    'Create Product',
-                    style: TextStyle(fontSize: 18),
-                  ),
+                icon: const Icon(Icons.list, size: 24),
+                label: const Text(
+                  'View All Products',
+                  style: TextStyle(fontSize: 18),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+                style: _buildButtonStyle(Colors.blue),
               ),
             ),
           ),
