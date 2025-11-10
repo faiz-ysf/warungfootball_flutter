@@ -4,7 +4,8 @@ class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
 
   @override
-  _AddProductPageState createState() => _AddProductPageState();
+  @override
+  State<AddProductPage> createState() => _AddProductPageState();
 }
 
 class _AddProductPageState extends State<AddProductPage> {
@@ -97,7 +98,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 },
               ),
               DropdownButtonFormField<String>(
-                value: _category,
+                initialValue: _category,
                 decoration: const InputDecoration(labelText: 'Category'),
                 items: _categories.map((String category) {
                   return DropdownMenuItem<String>(
