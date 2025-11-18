@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:warungfootball_flutter/add_product_page.dart';
 import 'package:warungfootball_flutter/product_buttons.dart';
 import 'package:warungfootball_flutter/screens/login.dart';
-import 'package:warungfootball_flutter/screens/product_list_page.dart';
+import 'package:warungfootball_flutter/screens/my_products_page.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 
@@ -115,12 +115,12 @@ class MyHomePage extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.list),
-              title: const Text('List Produk'),
+              title: const Text('My Products'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProductEntryListPage(),
+                    builder: (context) => const MyProductsPage(),
                   ),
                 );
               },
@@ -172,7 +172,7 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
+          Navigator..push(
             context,
             MaterialPageRoute(builder: (context) => const AddProductPage()),
           );

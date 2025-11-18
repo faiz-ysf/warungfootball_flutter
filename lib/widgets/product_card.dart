@@ -50,6 +50,17 @@ class ProductCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 4),
+
+                // Price
+                Text(
+                  'Rp ${product.price}',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 const SizedBox(height: 6),
 
                 // Category

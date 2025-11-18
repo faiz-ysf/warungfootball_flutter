@@ -5,20 +5,19 @@ import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:warungfootball_flutter/screens/product_detail.dart'; // Added import
 
-class ProductEntryListPage extends StatefulWidget {
-  const ProductEntryListPage({super.key});
+class MyProductsPage extends StatefulWidget {
+  const MyProductsPage({super.key});
 
   @override
-  State<ProductEntryListPage> createState() => _ProductEntryListPageState();
+  State<MyProductsPage> createState() => _MyProductsPageState();
 }
 
-class _ProductEntryListPageState extends State<ProductEntryListPage> {
+class _MyProductsPageState extends State<MyProductsPage> {
   Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
-    // TODO: Replace the URL with your app's URL and don't forget to add a trailing slash (/)!
-    // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
-    // If you using chrome,  use URL http://localhost:8000
-
-    final response = await request.get('http://10.0.2.2:8000/json/'); // Using 10.0.2.2 for emulator testing
+    // IMPORTANT: This now fetches only the products for the logged-in user.
+    // Make sure you have a corresponding URL in your Django app that returns JSON data for the current user.
+    // For example, a view decorated with @login_required that filters products by request.user.
+    final response = await request.get('http://10.0.2.2:8000/my-json/');
 
     // Decode response to json format
     var data = response;
@@ -37,7 +36,7 @@ class _ProductEntryListPageState extends State<ProductEntryListPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Product List')), // Changed title
+      appBar: AppBar(title: const Text('My Products')), // Changed title
       // drawer: const LeftDrawer(), // Commented out as LeftDrawer might not exist or needs correct import
       body: FutureBuilder(
         future: fetchProducts(request),
@@ -49,7 +48,7 @@ class _ProductEntryListPageState extends State<ProductEntryListPage> {
               return const Column(
                 children: [
                   Text(
-                    'There are no products available yet.', // Changed text
+                    'You have no products yet.', // Changed text
                     style: TextStyle(fontSize: 20, color: Color(0xff59A5D8)),
                   ),
                   SizedBox(height: 8),
