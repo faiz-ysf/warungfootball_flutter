@@ -1,9 +1,12 @@
+import 'dart:convert'; // Import for json.encode
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Import for Provider
+import 'package:pbp_django_auth/pbp_django_auth.dart'; // Import for CookieRequest
+import 'package:warungfootball_flutter/screens/product_list_page.dart'; // Import for navigation
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
 
-  @override
   @override
   State<AddProductPage> createState() => _AddProductPageState();
 }
@@ -30,6 +33,8 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>(); // Access CookieRequest
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add New Product'),
@@ -98,7 +103,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 },
               ),
               DropdownButtonFormField<String>(
-                initialValue: _category,
+                initialValue: _category, // Changed to initialValue
                 decoration: const InputDecoration(labelText: 'Category'),
                 items: _categories.map((String category) {
                   return DropdownMenuItem<String>(
@@ -132,38 +137,43 @@ class _AddProductPageState extends State<AddProductPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    
-                    String productData = '''
-Name: $_name
-Price: $_price
-Description: $_description
-Thumbnail: $_thumbnail
-Category: ${_category ?? 'N/A'}
-Featured: $_isFeatured
-''';
 
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Product Details'),
-                          content: SingleChildScrollView(
-                            child: Text(productData),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(); // Dismiss the dialog
-                              },
-                              child: const Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
+                    // Send data to Django backend
+                    final response = await request.postJson(
+                      "http://10.0.2.2:8000/create-product-flutter/", // TODO: Replace with your actual endpoint
+                      jsonEncode(<String, dynamic>{
+                        'name': _name,
+                        'price': _price,
+                        'descriptions': _description,
+                        'thumbnail': _thumbnail,
+                        'category': _category,
+                        'is_featured': _isFeatured,
+                        // Add other fields as necessary, e.g., user_id, user_name, etc.
+                      }),
                     );
+
+                    if (!context.mounted) return; // Add this line
+
+                    if (response['status'] == 'success') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("New product has been saved!"),
+                        ),
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(response['message'] ?? "Failed to save product."),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: const Text('Save'),

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:warungfootball_flutter/screens/product_list_page.dart';
 
 class ProductButtons extends StatefulWidget {
   const ProductButtons({super.key});
@@ -82,9 +83,10 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
               width: double.infinity, // Make button full width
               child: ElevatedButton.icon(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Kamu telah menekan tombol View All Products'),
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductEntryListPage(),
                     ),
                   );
                 },
