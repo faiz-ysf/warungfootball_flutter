@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:warungfootball_flutter/screens/register.dart';
 import 'package:warungfootball_flutter/main.dart'; // Import MyHomePage
+import 'package:warungfootball_flutter/constants.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,9 +20,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      backgroundColor: theme.colorScheme.background,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -30,32 +33,36 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Text(
+                    'Warung Football',
+                    style: GoogleFonts.poppins(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  TextField(
+                  const SizedBox(height: 24),
+                  TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(
                       labelText: 'Username',
-                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.person),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  TextField(
+                  const SizedBox(height: 16),
+                  TextFormField(
                     controller: _passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Password',
-                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () async {
                       String username = _usernameController.text.trim();
@@ -71,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
 
                       final response = await request.login(
-                        'http://localhost:8000/auth/login/', // Corrected URL
+                        '$baseUrl/auth/login/',
                         {'username': username, 'password': password},
                       );
 
@@ -107,9 +114,6 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(48),
-                    ),
                     child: const Text('Login'),
                   ),
                   const SizedBox(height: 16.0),
@@ -125,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       "Don't have an account? Register",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: theme.colorScheme.primary,
                         fontSize: 16.0,
                         decoration: TextDecoration.underline,
                       ),

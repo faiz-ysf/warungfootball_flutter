@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:warungfootball_flutter/constants.dart';
 import 'package:warungfootball_flutter/screens/login.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -28,7 +30,10 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+    final theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
         title: const Text('Register'),
         leading: IconButton(
@@ -45,53 +50,60 @@ class _RegisterPageState extends State<RegisterPage> {
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(24.0),
               child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 24,
+                    Text(
+                      'Create Account',
+                      style: GoogleFonts.poppins(
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 24),
                     TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
                         labelText: 'Username',
-                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.person),
                       ),
                       validator: (v) => v == null || v.isEmpty
                           ? 'Please enter your username'
                           : null,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Password',
-                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.lock),
                       ),
                       validator: (v) => v == null || v.isEmpty
                           ? 'Please enter your password'
                           : null,
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 16),
                     TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Confirm Password',
-                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.lock_outline),
                       ),
-                      validator: (v) => v == null || v.isEmpty
-                          ? 'Please confirm your password'
-                          : null,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (v != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 24),
                     ElevatedButton(
@@ -99,34 +111,22 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (!_formKey.currentState!.validate()) return;
 
                         final username = _usernameController.text.trim();
-                        final password1 = _passwordController.text.trim();
-                        final password2 = _confirmPasswordController.text
-                            .trim();
-
-                        if (password1 != password2) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Passwords do not match.'),
-                            ),
-                          );
-                          return;
-                        }
+                        final password = _passwordController.text.trim();
 
                         final response = await request.postJson(
-                          'http://10.0.2.2:8000/auth/register/',
+                          '$baseUrl/auth/register/',
                           jsonEncode({
                             'username': username,
-                            'password1': password1,
-                            'password2': password2,
+                            'password': password,
                           }),
                         );
 
-                        if (!context.mounted) return; // Moved this line and changed to context.mounted
+                        if (!context.mounted) return;
 
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Successfully registered!'),
+                              content: Text('Successfully registered! Please log in.'),
                             ),
                           );
                           Navigator.pushReplacement(
@@ -137,15 +137,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar( // Removed const
-                              content: Text(response['message'] ?? 'Failed to register!'), // Removed const
+                            SnackBar(
+                              content: Text(response['message'] ?? 'Failed to register!'),
                             ),
                           );
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(48),
-                      ),
                       child: const Text('Register'),
                     ),
                   ],
