@@ -9,13 +9,13 @@ import 'package:warungfootball_flutter/widgets/product_card.dart';
 import 'package:warungfootball_flutter/screens/product_detail.dart';
 
 class ProductListPage extends StatefulWidget {
-  const ProductEntryListPage({super.key});
+  const ProductListPage({super.key});
 
   @override
-  State<ProductEntryListPage> createState() => _ProductEntryListPageState();
+  State<ProductListPage> createState() => _ProductListPageState();
 }
 
-class _ProductEntryListPageState extends State<ProductEntryListPage> {
+class _ProductListPageState extends State<ProductListPage> {
   Future<List<ProductEntry>> fetchProducts(CookieRequest request) async {
     final response = await request.get('$baseUrl/json/');
     

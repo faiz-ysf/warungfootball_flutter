@@ -1,0 +1,6 @@
+The Flutter DevTools debugger and profiler on Edge is available at: http://127.0.0.1:9100?uri=http://127.0.0.1:59839/IlyBVeOtpwk=
+Attempting login for user: faiz2321
+Login response from Django: {username: faiz2321, status: true, message: Login successful!}
+request.loggedIn after login: true
+Cookies in request after login: {}
+Cookies in request within MyHomePage: {}

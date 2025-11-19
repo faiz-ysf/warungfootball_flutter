@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: const Text('Register'),
         leading: IconButton(
@@ -117,7 +117,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           '$baseUrl/auth/register/',
                           jsonEncode({
                             'username': username,
-                            'password': password,
+                            'password1': password,
+                            'password2': _confirmPasswordController.text.trim(),
                           }),
                         );
 

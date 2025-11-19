@@ -41,12 +41,11 @@ class MyApp extends StatelessWidget {
         primary: const Color(0xFF2E7D32), // Deep Green
         secondary: const Color(0xFF66BB6A), // Lighter Green
         surface: const Color(0xFFF5F5F5), // Light Grey
-        background: Colors.white,
+
         error: Colors.red,
         onPrimary: Colors.white,
         onSecondary: Colors.black,
         onSurface: Colors.black,
-        onBackground: Colors.black,
         onError: Colors.white,
       ),
       textTheme: GoogleFonts.poppinsTextTheme(baseTheme.textTheme).copyWith(
@@ -112,6 +111,9 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+    // --- ADDED DEBUG LOGGING START ---
+    print('Cookies in request within MyHomePage: ${request.cookies}');
+    // --- ADDED DEBUG LOGGING END ---
     return Scaffold(
       appBar: AppBar(
         title: const Text('Warung Football'),
@@ -119,7 +121,7 @@ class MyHomePage extends StatelessWidget {
       ),
       drawer: _buildDrawer(context, request),
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -77,10 +78,20 @@ class _LoginPageState extends State<LoginPage> {
                         return;
                       }
 
+                      // --- ADDED DEBUG LOGGING START ---
+                      print('Attempting login for user: $username');
+                      // --- ADDED DEBUG LOGGING END ---
+
                       final response = await request.login(
                         '$baseUrl/auth/login/',
                         {'username': username, 'password': password},
                       );
+
+                      // --- ADDED DEBUG LOGGING START ---
+                      print('Login response from Django: $response');
+                      print('request.loggedIn after login: ${request.loggedIn}');
+                      print('Cookies in request after login: ${request.cookies}'); // Access cookies here
+                      // --- ADDED DEBUG LOGGING END ---
 
                       if (request.loggedIn) {
                         if (context.mounted) {
