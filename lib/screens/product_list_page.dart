@@ -8,7 +8,7 @@ import 'package:warungfootball_flutter/models/product_entry.dart';
 import 'package:warungfootball_flutter/widgets/product_card.dart';
 import 'package:warungfootball_flutter/screens/product_detail.dart';
 
-class ProductEntryListPage extends StatefulWidget {
+class ProductListPage extends StatefulWidget {
   const ProductEntryListPage({super.key});
 
   @override
