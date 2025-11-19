@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:warungfootball_flutter/screens/my_products_page.dart';
 import 'package:warungfootball_flutter/screens/product_list_page.dart';
 
 class ProductButtons extends StatefulWidget {
@@ -58,9 +59,10 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
               width: double.infinity, // Make button full width
               child: ElevatedButton.icon(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Kamu telah menekan tombol My Products'),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyProductsPage(),
                     ),
                   );
                 },
@@ -74,7 +76,32 @@ class _ProductButtonsState extends State<ProductButtons> with SingleTickerProvid
             ),
           ),
         ),
-        const SizedBox(height: 15), // Increased spacing
+        const SizedBox(height: 15),
+        FadeTransition(
+          opacity: _fadeAnimation,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: SizedBox(
+              width: double.infinity, // Make button full width
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Kamu telah menekan tombol Create Product'),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.add_shopping_cart, size: 24),
+                label: const Text(
+                  'Create Product',
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: _buildButtonStyle(Colors.orange),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
         FadeTransition(
           opacity: _fadeAnimation,
           child: Padding(

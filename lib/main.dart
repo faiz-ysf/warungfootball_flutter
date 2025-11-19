@@ -172,8 +172,7 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator..push(
-            context,
+          Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const AddProductPage()),
           );
         },
